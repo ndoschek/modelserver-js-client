@@ -14,7 +14,7 @@ const subscribe = sessionId => {
   ws.on('message', data => {
     const obj = JSON.parse(data);
     if (obj.sessionId) {
-      sessionId = data.sessionId;
+      sessionId = obj.sessionId;
       console.log('Subscribed to session: ', sessionId)
     } else {
       console.log("Received: ", obj);
