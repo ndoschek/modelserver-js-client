@@ -7,7 +7,7 @@ const subscribe = modeluri => {
     return;
   }
 
-  const ws = new WebSocket(`ws://localhost:8081/api/v1/subscribe/${modeluri}`, {
+  const ws = new WebSocket(`ws://localhost:8081/api/v1/subscribe/modeluri=${modeluri}`, {
     perMessageDeflate: false
   });
   ws.on('open', () => console.log('client connected'));

@@ -1,13 +1,13 @@
 const data = {
-    "eClass": "http://www.eclipsesource.com/emfforms/example/coffeemodel#//Machine",
+    "eClass": "http://www.eclipsesource.com/modelserver/example/coffeemodel#//Machine",
     "children": [
         {
-            "eClass": "http://www.eclipsesource.com/emfforms/example/coffeemodel#//BrewingUnit"
+            "eClass": "http://www.eclipsesource.com/modelserver/example/coffeemodel#//BrewingUnit"
         },
         {
-            "eClass": "http://www.eclipsesource.com/emfforms/example/coffeemodel#//ControlUnit",
+            "eClass": "http://www.eclipsesource.com/modelserver/example/coffeemodel#//ControlUnit",
             "processor": {
-                "clockSpeed": 5,
+                "clockSpeed": 15,
                 "numberOfCores": 10,
                 "socketconnectorType": "Z51",
                 "thermalDesignPower": 100
@@ -23,10 +23,10 @@ const data = {
         {
             "nodes": [
                 {
-                    "eClass": "http://www.eclipsesource.com/emfforms/example/coffeemodel#//AutomaticTask",
+                    "eClass": "http://www.eclipsesource.com/modelserver/example/coffeemodel#//AutomaticTask",
                     "name": "PreHeat",
                     "component": {
-                        "eClass": "http://www.eclipsesource.com/emfforms/example/coffeemodel#//BrewingUnit",
+                        "eClass": "http://www.eclipsesource.com/modelserver/example/coffeemodel#//BrewingUnit",
                         "$ref": "//@children.0"
                     }
                 }
