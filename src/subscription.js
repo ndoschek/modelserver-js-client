@@ -7,7 +7,7 @@ const subscribe = modeluri => {
     return;
   }
 
-  const ws = new WebSocket(`ws://localhost:8081/api/v1/subscribe/modeluri=${modeluri}`, {
+  const ws = new WebSocket(`ws://localhost:8081/api/v1/subscribe?modeluri=${modeluri}`, {
     perMessageDeflate: false
   });
   ws.on('open', () => console.log('client connected'));
@@ -17,7 +17,7 @@ const subscribe = modeluri => {
       sessionId = obj.sessionId;
       console.log('SessionId:', sessionId)
     } else {
-      console.log('Received:', obj.data);
+      console.log('Received: ', obj.type, ' Data: ', obj.data);
     }
   });
   ws.on('close', (code, reason) => {
@@ -25,6 +25,9 @@ const subscribe = modeluri => {
       reason = 'Server shutdown';
     }
     console.log('Session closed:', code, " ", reason);
+  });
+  ws.on('error', (error) => {
+    console.log('Session errored: ', error);
   })
   return ws;
 };
