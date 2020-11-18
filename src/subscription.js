@@ -7,6 +7,8 @@ const subscribe = modeluri => {
     return;
   }
 
+  let logCount = 0;
+
   const ws = new WebSocket(`ws://localhost:8081/api/v1/subscribe?modeluri=${modeluri}`, {
     perMessageDeflate: false
   });
@@ -15,9 +17,9 @@ const subscribe = modeluri => {
     const obj = JSON.parse(data);
     if (obj.sessionId) {
       sessionId = obj.sessionId;
-      console.log('SessionId:', sessionId)
+      console.log(logCount++ + 'SessionId:', sessionId)
     } else {
-      console.log('Received: ', obj.type, ' Data: ', obj.data);
+      console.log(logCount++ + ' Received: ', obj.type, ' Data: ', obj.data);
     }
   });
   ws.on('close', (code, reason) => {
