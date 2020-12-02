@@ -1,37 +1,56 @@
 const WebSocket = require('ws');
 
-const subscribe = modeluri => {
+const log = logMsg => {
+  const now = new Date(Date.now());
+  console.log(now.toLocaleString() + ' | ' + logMsg);
+}
+
+const subscribe = (modeluri, timeout) => {
 
   if (!modeluri) {
     console.error('ERROR: No model URI given');
     return;
   }
 
-  let logCount = 0;
+  const ws = new WebSocket(`ws://localhost:8081/api/v1/subscribe?modeluri=${modeluri}&timeout=${timeout}`, { perMessageDeflate: false });
 
-  const ws = new WebSocket(`ws://localhost:8081/api/v1/subscribe?modeluri=${modeluri}`, {
-    perMessageDeflate: false
+  var interval;
+  var modificationCount = 0;
+
+  ws.on('open', () => {
+    log('client connected');
+    interval = setInterval(function () {
+      log('ping server to keepalive');
+      ws.send(JSON.stringify({ type: 'keepAlive', data: '' }));
+    }, timeout - 1000);
   });
-  ws.on('open', () => console.log('client connected'));
+
   ws.on('message', data => {
     const obj = JSON.parse(data);
-    if (obj.sessionId) {
-      sessionId = obj.sessionId;
-      console.log(logCount++ + 'SessionId:', sessionId)
-    } else {
-      console.log(logCount++ + ' Received: ', obj.type, ' Data: ', obj.data);
+    log('Received: ' + obj.type + ' Data: ' + obj.data);
+    if (obj.type === 'fullUpdate') {
+      modificationCount++;
+      if (modificationCount > 2) {
+        ws.close();
+        return;
+      }
     }
   });
+
   ws.on('close', (code, reason) => {
+    clearInterval(interval);
     if (reason === '' && code === 1006) {
       reason = 'Server shutdown';
     }
-    console.log('Session closed:', code, " ", reason);
+    log('Session closed:' + code + ' ' + reason);
   });
+
   ws.on('error', (error) => {
-    console.log('Session errored: ', error);
+    clearInterval(interval);
+    log('Session errored: ' + error);
   })
+
   return ws;
 };
 
-subscribe(process.argv[2])
+subscribe(process.argv[2], process.argv[3] ? process.argv[3] : 30000)

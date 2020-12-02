@@ -1,8 +1,8 @@
 const fetch = require('node-fetch');
 const { data } = require('./model');
 
-const fakeModify = () => {
-  fetch(`http://localhost:8081/api/v1/models?modeluri=SuperBrewer3000.coffee`, {
+const fakeModify = (modeluri) => {
+  fetch(`http://localhost:8081/api/v1/models?modeluri=${modeluri}`, {
     method: "patch",
     body: JSON.stringify({ data }),
     headers: { 'Content-Type': 'application/json' },
@@ -12,4 +12,4 @@ const fakeModify = () => {
     .then(json => console.log(json))
 }
 
-fakeModify();
+fakeModify(process.argv[2]);

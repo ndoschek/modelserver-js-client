@@ -4,10 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node src/index.js",
+    "modify": "node src/modify.js SuperBrewer3000.coffee",
     "subscribe": "node src/subscription.js SuperBrewer3000.coffee",
     "subscribe-coffee": "node src/subscription.js Coffee.ecore",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "subscribe-empty": "node src/subscription.js empty/model/empty.ecore",
+    "timeout": "node src/subscription.js SuperBrewer3000.coffee 5000"
   },
   "keywords": [],
   "author": "",
