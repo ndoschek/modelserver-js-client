@@ -26,6 +26,7 @@ const subscribe = (modeluri, timeout) => {
   });
 
   ws.on('message', data => {
+    log(data)
     const obj = JSON.parse(data);
     log('Received: ' + obj.type + ' Data: ' + obj.data);
     if (obj.type === 'fullUpdate') {
