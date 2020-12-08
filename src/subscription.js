@@ -54,4 +54,4 @@ const subscribe = (modeluri, timeout) => {
   return ws;
 };
 
-subscribe(process.argv[2], process.argv[3] ? process.argv[3] : 30000)
+subscribe(process.argv[2], process.argv[3] ? process.argv[3] : 300000)
